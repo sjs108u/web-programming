@@ -10,11 +10,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/sendfile.h>
+#include <sys/wait.h>
 
 char webContent[4096];
 
 int main(int argc, char** argv){
 	
+	int status;
 	char htmlContent[2048], temp[50];
 	FILE* fp_html = fopen("index.html", "r+");
 	fread(htmlContent, 2048, 1, fp_html);
@@ -172,6 +174,7 @@ int main(int argc, char** argv){
 			exit(0);
 		}
 		/*parent*/
+		wait(&status);
 		printf("\nparent fd_client closed.\n");
 		close(fd_client);
 		
